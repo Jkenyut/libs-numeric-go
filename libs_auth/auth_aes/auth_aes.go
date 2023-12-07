@@ -10,6 +10,7 @@ import (
 	"io"
 )
 
+// aes custom
 type AESCustom struct {
 	Data any
 }
