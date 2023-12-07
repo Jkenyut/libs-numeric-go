@@ -1,4 +1,4 @@
-module libs-numeric-go
+module github.com/Jkenyut/libs-numeric-go
 
 go 1.19
 

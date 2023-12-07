@@ -2,7 +2,7 @@ package auth_jwt
 
 import (
 	"context"
-	"libs-numeric-go/libs_models/model_jwt"
+	"github.com/Jkenyut/libs-numeric-go/libs_models/model_jwt"
 )
 
 type InterfacesAuthJWT interface {

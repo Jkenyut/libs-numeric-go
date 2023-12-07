@@ -3,9 +3,9 @@ package auth_jwt
 import (
 	"context"
 	"errors"
+	"github.com/Jkenyut/libs-numeric-go/libs_config"
+	"github.com/Jkenyut/libs-numeric-go/libs_models/model_jwt"
 	"github.com/golang-jwt/jwt/v5"
-	"libs-numeric-go/libs_config"
-	"libs-numeric-go/libs_models/model_jwt"
 	"time"
 )
 
