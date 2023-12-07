@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+//jwt
+
 type ClientAuth struct {
 	conf libs_config.JWTConfig
 }
