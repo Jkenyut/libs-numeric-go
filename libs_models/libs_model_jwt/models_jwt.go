@@ -5,6 +5,6 @@ import (
 )
 
 type CustomClaims struct {
-	Data any `json:"data,omitempty"`
 	jwt.RegisteredClaims
+	Data any `json:"data,omitempty"`
 }
