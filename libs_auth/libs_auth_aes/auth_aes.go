@@ -1,4 +1,4 @@
-package auth_aes
+package libs_auth_aes
 
 import (
 	"crypto/aes"

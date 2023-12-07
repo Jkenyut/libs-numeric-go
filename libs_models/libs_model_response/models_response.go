@@ -1,4 +1,4 @@
-package model_response
+package libs_model_response
 
 import (
 	"golang.org/x/text/cases"
