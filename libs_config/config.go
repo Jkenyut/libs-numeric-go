@@ -69,7 +69,3 @@ type JWTConfig struct {
 	ExpiredAccess  int    `yaml:"expiredAccess" default:"30"`
 	ExpiredRefresh int    `yaml:"expiredRefresh" default:"24"`
 }
-
-type KeyAES struct {
-	KeyAES string `yaml:"keyAES" default:"!a@b3b$n$j6(KQM1"`
-}
