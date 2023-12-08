@@ -19,6 +19,7 @@ func NewClientAuthJWT(conf libs_config.JWTConfig) InterfacesAuthJWT {
 		conf: conf,
 	}
 }
+
 func (repo *ClientAuth) GenerateJWTAccessCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims libs_model_jwt.CustomClaims, err error) {
 	claimsAccess := libs_model_jwt.CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{

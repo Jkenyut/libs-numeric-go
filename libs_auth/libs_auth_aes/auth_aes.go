@@ -12,8 +12,12 @@ import (
 
 // aes custom data
 
-type AESCustom struct {
-	Data any
+type AESCustomRequest struct {
+	Request any `json:"request,omitempty"`
+}
+
+type AESCustomResponse struct {
+	Response any `json:"response,omitempty"`
 }
 
 func EncryptMessage(key []byte, plaintext []byte) ([]byte, error) {
@@ -54,7 +58,7 @@ func DecryptMessage(key []byte, ciphertext []byte) ([]byte, error) {
 }
 
 func AesEncrypt(key []byte, data any) (encode string, err error) {
-	jsonData, err := json.Marshal(AESCustom{Data: data})
+	jsonData, err := json.Marshal(AESCustomRequest{Request: data})
 	if err != nil {
 		return encode, err
 	}
@@ -65,7 +69,7 @@ func AesEncrypt(key []byte, data any) (encode string, err error) {
 	return base64.StdEncoding.EncodeToString(encryptedData), nil
 }
 
-func AesDecrypt(key []byte, plaintext string) (out *AESCustom, err error) {
+func AesDecrypt(key []byte, plaintext string) (out *AESCustomRequest, err error) {
 	decodeString, err := base64.StdEncoding.DecodeString(plaintext)
 	if err != nil {
 		return nil, err
