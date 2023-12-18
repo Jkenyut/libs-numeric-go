@@ -20,7 +20,7 @@ func NewClientAuthJWT(conf libs_config.JWTConfig) InterfacesAuthJWT {
 	}
 }
 
-func (repo *ClientAuth) GenerateJWTAccessCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims *libs_model_jwt.CustomClaims, err error) {
+func (repo *ClientAuth) GenerateJWTAccessCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims libs_model_jwt.CustomClaims, err error) {
 	claimsAccess := libs_model_jwt.CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    issuer,
@@ -40,12 +40,12 @@ func (repo *ClientAuth) GenerateJWTAccessCustom(ctx context.Context, issuer stri
 	// Sign the token with the secret key
 	tokenJWTAccess, err = tokenAccess.SignedString([]byte(repo.conf.Access))
 	if err != nil {
-		return tokenJWTAccess, nil, err
+		return tokenJWTAccess, claimsAccess, err
 	}
-	return tokenJWTAccess, &claimsAccess, nil
+	return tokenJWTAccess, claimsAccess, nil
 }
 
-func (repo *ClientAuth) GenerateJWTRefreshCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims *libs_model_jwt.CustomClaims, err error) {
+func (repo *ClientAuth) GenerateJWTRefreshCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims libs_model_jwt.CustomClaims, err error) {
 	claimsAccess := libs_model_jwt.CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    issuer,
@@ -64,7 +64,7 @@ func (repo *ClientAuth) GenerateJWTRefreshCustom(ctx context.Context, issuer str
 	// Sign the token with the secret key
 	tokenJWTAccess, err = tokenAccess.SignedString([]byte(repo.conf.Refresh))
 	if err != nil {
-		return tokenJWTAccess, nil, err
+		return tokenJWTAccess, claimsAccess, err
 	}
-	return tokenJWTAccess, &claimsAccess, nil
+	return tokenJWTAccess, claimsAccess, nil
 }
