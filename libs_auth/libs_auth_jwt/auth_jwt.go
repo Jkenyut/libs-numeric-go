@@ -40,7 +40,7 @@ func (repo *ClientAuth) GenerateJWTAccessCustom(ctx context.Context, issuer stri
 	// Sign the token with the secret key
 	tokenJWTAccess, err = tokenAccess.SignedString([]byte(repo.conf.Access))
 	if err != nil {
-		return tokenJWTAccess, libs_model_jwt.CustomClaims{}, err
+		return tokenJWTAccess, claimsAccess, err
 	}
 	return tokenJWTAccess, claimsAccess, nil
 }
@@ -64,7 +64,7 @@ func (repo *ClientAuth) GenerateJWTRefreshCustom(ctx context.Context, issuer str
 	// Sign the token with the secret key
 	tokenJWTAccess, err = tokenAccess.SignedString([]byte(repo.conf.Refresh))
 	if err != nil {
-		return tokenJWTAccess, libs_model_jwt.CustomClaims{}, err
+		return tokenJWTAccess, claimsAccess, err
 	}
 	return tokenJWTAccess, claimsAccess, nil
 }
