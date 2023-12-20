@@ -6,6 +6,6 @@ import (
 )
 
 type InterfacesAuthJWT interface {
-	GenerateJWTAccessCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims libs_model_jwt.CustomClaims, err error)
-	GenerateJWTRefreshCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims libs_model_jwt.CustomClaims, err error)
+	GenerateJWTAccessCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims *libs_model_jwt.CustomClaims, err error)
+	GenerateJWTRefreshCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims *libs_model_jwt.CustomClaims, err error)
 }
