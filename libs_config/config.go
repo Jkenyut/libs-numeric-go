@@ -26,7 +26,7 @@ type SQLConfig struct {
 	MultiStatements bool   `yaml:"multiStatements" default:"false"  desc:"config:sql:multiStatements"`
 }
 
-type RabbitMQProviderConfig struct {
+type RabbitMQConfig struct {
 	Enable              bool   `yaml:"enable" default:"false" desc:"config:rabbitmq:enable"`
 	Host                string `yaml:"host" default:"127.0.0.1" desc:"config:rabbitmq:host"`
 	Port                int    `yaml:"port" default:"5672" desc:"config:rabbitmq:port"`
@@ -36,7 +36,7 @@ type RabbitMQProviderConfig struct {
 	DedicatedConnection bool   `yaml:"dedicatedConnection" default:"false" desc:"config:rabbitmq:dedicatedConnection"`
 }
 
-type RedisProviderConfig struct {
+type RedisConfig struct {
 	Enable        bool   `yaml:"enable" default:"false" desc:"config:redis:enable"`
 	Host          string `yaml:"host" default:"127.0.0.1" desc:"config:redis:host"`
 	Port          int    `yaml:"port" default:"6379" desc:"config:redis:port"`
@@ -53,7 +53,7 @@ type RedisProviderConfig struct {
 	ConMaxIdle    int    `yaml:"conmaxidle" default:"600" desc:"config:conmaxidle"`
 }
 
-type KafkaProviderConfig struct {
+type KafkaConfig struct {
 	Enable           bool   `yaml:"enable" default:"false" desc:"config:kafka:enable"`
 	Host             string `yaml:"host" default:"127.0.0.1:9092" desc:"config:kafka:host"`
 	Registry         string `yaml:"registry" default:"" desc:"config:kafka:registry"`

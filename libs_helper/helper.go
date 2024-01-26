@@ -2,6 +2,7 @@ package helper
 
 import (
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"strings"
@@ -55,4 +56,23 @@ func AddUnique(value string, slice *[]string) {
 	}
 	// jika tidak ada data masukkan
 	*slice = append(*slice, cases.Title(language.Und, cases.NoLower).String(value))
+}
+
+func RequestValidateID(err error) string {
+	var message string
+	for _, messageError := range err.(validator.ValidationErrors) {
+		switch messageError.Tag() {
+		case "required":
+			message = fmt.Sprint(messageError.StructField(), " ", messageError.Param())
+		case "min":
+			message = fmt.Sprint(messageError.StructField(), " minimal panjang karakter ", messageError.Param())
+		case "max":
+			message = fmt.Sprint(messageError.StructField(), " maksimal panjang karakter ", messageError.Param())
+		case "numeric":
+			message = fmt.Sprint(messageError.StructField(), " hanya di bolehkan ", messageError.Param())
+		}
+		break
+	}
+	message = cases.Title(language.Und, cases.NoLower).String(message)
+	return message
 }

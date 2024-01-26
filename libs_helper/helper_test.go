@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"github.com/go-playground/validator/v10"
 	. "github.com/smartystreets/goconvey/convey"
 	"testing"
 )
@@ -65,4 +66,47 @@ func TestFunction(t *testing.T) {
 		So(len(s), ShouldEqual, 6)
 	})
 
+}
+
+func TestRequestValidate(t *testing.T) {
+	Convey("Given a list of validation errors", t, func() {
+		type Required struct {
+			ID string `json:"ID,omitempty" validate:"required"`
+		}
+		type Min struct {
+			ID string `json:"ID,omitempty" validate:"min=2"`
+		}
+		type Max struct {
+			ID string `json:"ID,omitempty" validate:"max=2"`
+		}
+		type Numeric struct {
+			ID string `json:"ID,omitempty" validate:"numeric=2"`
+		}
+		// Create a validation error object.
+		valid := validator.New()
+
+		Convey("When RequestValidate is called", func() {
+			Convey("Then it should return the expected error message required", func() {
+				e := valid.Struct(Required{ID: ""})
+				result := RequestValidateID(e)
+				So(result, ShouldNotBeNil)
+			})
+
+			Convey("Then it should return the expected error message min", func() {
+				e := valid.Struct(Min{ID: "c"})
+				result := RequestValidateID(e)
+				So(result, ShouldNotBeNil)
+			})
+			Convey("Then it should return the expected error message max", func() {
+				e := valid.Struct(Max{ID: "eneneiovneic"})
+				result := RequestValidateID(e)
+				So(result, ShouldNotBeNil)
+			})
+			Convey("Then it should return the expected error message Numeric", func() {
+				e := valid.Struct(Numeric{ID: "eneneiovneic"})
+				result := RequestValidateID(e)
+				So(result, ShouldNotBeNil)
+			})
+		})
+	})
 }
