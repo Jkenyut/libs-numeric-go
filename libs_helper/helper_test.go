@@ -61,7 +61,7 @@ func TestFunction(t *testing.T) {
 		var s []string
 		Array := []string{"Berhasil", "Gagal", "Kalo", "Ini", "ini", "Atau", "Jika", ""}
 		for _, i := range Array {
-			AddUnique(i, &s)
+			AddStringUnique(i, &s)
 		}
 		So(len(s), ShouldEqual, 6)
 	})
