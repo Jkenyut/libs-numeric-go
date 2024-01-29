@@ -34,24 +34,24 @@ func ConvertNorekFormatBRI(in string) string {
 	return fmt.Sprintf("%s-%s-%s-%s-%s", in[:4], in[4:6], in[6:12], in[12:14], in[14:])
 }
 
-func FormatAmountIDR(req float64) string {
+func FormatAmountIDR(req float64) (res string) {
 	//format idr like 100,000.00
-	var res string
+
 	step := strings.Split(fmt.Sprintf("%.2f", req), ".")
 	for i, j := range step[0] {
-		if i > 0 && (len(step[0])-i)%3 == 0 {
+		if i > 0 && (len(step[0])-i)%3 == 0 { //logic
 			res += ","
 		}
 		res += string(j)
 	}
-	res += "." + step[1]
+	res += "." + step[1] //join value + .00
 	return res
 }
 
 // AddUnique duplicate array
-func AddUnique(value string, slice *[]string) {
+func AddStringUnique(value string, slice *[]string) {
 	//lopping data
-	for _, eq := range *slice {
+	for _, eq := range *slice { //loop
 		if strings.ToLower(eq) == strings.ToLower(value) || value == "" {
 			//jika sudah ada data selesai
 			return
@@ -69,13 +69,13 @@ func MessageValidate(err error, lang string) (message string) {
 
 	var index = 1 //default indonesia
 	for i := 0; i < len(ValidationMessages.Lang); i++ {
-		if strings.ToLower(strings.TrimSpace(ValidationMessages.Lang[i].Language)) == strings.ToLower(strings.TrimSpace(lang)) {
+		if strings.ToLower(strings.TrimSpace(ValidationMessages.Lang[i].Language)) == strings.ToLower(strings.TrimSpace(lang)) { // lang conditional
 			index = i
 			break
 		}
 	}
 
-	messages := ValidationMessages.Lang[index].Details
+	messages := ValidationMessages.Lang[index].Details //get value
 	for _, messageError := range err.(validator.ValidationErrors) {
 		//tagging validate
 		switch strings.ToLower(messageError.Tag()) {
@@ -100,7 +100,7 @@ func MessageValidate(err error, lang string) (message string) {
 
 // Function that uses the global variable
 func LoadLang() (ValidationMessages *libs_model_validations.ValidationMessages, err error) {
-	//validator10 //add your lang to here
+	//validator10 **add your lang to here
 	byteValue := libs_model_validations.ValidationMessages{
 		Lang: []libs_model_validations.LanguageDetails{
 			{
