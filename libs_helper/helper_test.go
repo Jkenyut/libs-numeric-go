@@ -94,33 +94,33 @@ func TestRequestValidate(t *testing.T) {
 		Convey("When RequestValidate is called", func() {
 			Convey("Then it should return the expected error message required", func() {
 				e := valid.Struct(Required{ID: ""})
-				result := RequestValidateID(e)
+				result := MessageValidate(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 
 			Convey("Then it should return the expected error message min", func() {
 				e := valid.Struct(Min{ID: "c"})
-				result := RequestValidateID(e)
+				result := MessageValidate(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 			Convey("Then it should return the expected error message max", func() {
 				e := valid.Struct(Max{ID: "eneneiovneic"})
-				result := RequestValidateID(e)
+				result := MessageValidate(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 			Convey("Then it should return the expected error message Numeric", func() {
 				e := valid.Struct(Numeric{ID: "eneneiovneic"})
-				result := RequestValidateID(e)
+				result := MessageValidate(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 			Convey("Then it should return the expected error message ascii", func() {
 				e := valid.Struct(ascii{ID: "é"})
-				result := RequestValidateID(e)
+				result := MessageValidate(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 			Convey("Then it should return the expected error message uuid", func() {
 				e := valid.Struct(uuid{ID: "28febdfd-2b58-4a03-ac1e-e541a07bfac"})
-				result := RequestValidateID(e)
+				result := MessageValidate(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 		})
