@@ -1,7 +1,9 @@
 package helper
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/Jkenyut/libs-numeric-go/libs_models/libs_model_validations"
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -58,25 +60,79 @@ func AddUnique(value string, slice *[]string) {
 	*slice = append(*slice, cases.Title(language.Und, cases.NoLower).String(value))
 }
 
-func RequestValidateID(err error) string {
-	var message string
+func RequestValidateID(err error, lang string) (message string) {
+	ValidationMessages, errLoad := LoadLang()
+	if errLoad != nil {
+		return fmt.Sprint(errLoad)
+	}
+
+	var index = 1
+	for i := 0; i < len(ValidationMessages.Lang); i++ {
+		if strings.ToLower(strings.TrimSpace(ValidationMessages.Lang[i].Language)) == strings.ToLower(strings.TrimSpace(lang)) {
+			index = i
+			break
+		}
+	}
+
+	messages := ValidationMessages.Lang[index].Details
 	for _, messageError := range err.(validator.ValidationErrors) {
 		switch strings.ToLower(messageError.Tag()) {
 		case "required":
-			message = fmt.Sprint(messageError.StructField(), " ", messageError.Param())
+			message = fmt.Sprint(messageError.StructField(), messages.Required, messageError.Param())
 		case "min":
-			message = fmt.Sprint(messageError.StructField(), " minimal panjang karakter ", messageError.Param())
+			message = fmt.Sprint(messageError.StructField(), messages.Min, messageError.Param())
 		case "max":
-			message = fmt.Sprint(messageError.StructField(), " maksimal panjang karakter ", messageError.Param())
+			message = fmt.Sprint(messageError.StructField(), messages.Max, messageError.Param())
 		case "numeric":
-			message = fmt.Sprint(messageError.StructField(), " hanya di bolehkan ", messageError.Param())
+			message = fmt.Sprint(messageError.StructField(), messages.Numeric, messageError.Param())
 		case "ascii":
-			message = fmt.Sprint(messageError.StructField(), " ", messageError.Param())
+			message = fmt.Sprint(messageError.StructField(), messages.Ascii, messageError.Param())
 		case "uuid":
-			message = fmt.Sprint(messageError.StructField(), " ", messageError.Param())
+			message = fmt.Sprint(messageError.StructField(), messages.UUID, messageError.Param())
 		}
 		break
 	}
 	message = cases.Title(language.Und, cases.NoLower).String(message)
 	return message
+}
+
+// Function that uses the global variable
+func LoadLang() (ValidationMessages *libs_model_validations.ValidationMessages, err error) {
+	byteValue := libs_model_validations.ValidationMessages{
+		Lang: []libs_model_validations.LanguageDetails{
+			{
+				Language: "eng",
+				Details: libs_model_validations.ValidationDetails{
+					Required: " ",
+					Min:      " minimum character length ",
+					Max:      " maximum character length ",
+					Numeric:  " only allowed ",
+					Ascii:    " ",
+					UUID:     " ",
+				},
+			},
+			{
+				Language: "id",
+				Details: libs_model_validations.ValidationDetails{
+					Required: " ",
+					Min:      " minimal panjang karakter ",
+					Max:      " maksimal panjang karakter ",
+					Numeric:  " hanya di bolehkan ",
+					Ascii:    " ",
+					UUID:     " ",
+				},
+			},
+		},
+	}
+	marshal, err := json.Marshal(byteValue)
+	if err != nil {
+		return nil, err
+	}
+
+	// Unmarshal the JSON content into the struct
+	err = json.Unmarshal(marshal, &ValidationMessages)
+	if err != nil {
+		return nil, err
+	}
+	return ValidationMessages, nil
 }
