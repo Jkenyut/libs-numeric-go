@@ -82,6 +82,12 @@ func TestRequestValidate(t *testing.T) {
 		type Numeric struct {
 			ID string `json:"ID,omitempty" validate:"numeric=2"`
 		}
+		type ascii struct {
+			ID string `json:"ID" validate:"ascii"`
+		}
+		type uuid struct {
+			ID string `json:"ID" validate:"uuid"`
+		}
 		// Create a validation error object.
 		valid := validator.New()
 
@@ -104,6 +110,16 @@ func TestRequestValidate(t *testing.T) {
 			})
 			Convey("Then it should return the expected error message Numeric", func() {
 				e := valid.Struct(Numeric{ID: "eneneiovneic"})
+				result := RequestValidateID(e)
+				So(result, ShouldNotBeNil)
+			})
+			Convey("Then it should return the expected error message ascii", func() {
+				e := valid.Struct(ascii{ID: "é"})
+				result := RequestValidateID(e)
+				So(result, ShouldNotBeNil)
+			})
+			Convey("Then it should return the expected error message uuid", func() {
+				e := valid.Struct(uuid{ID: "28febdfd-2b58-4a03-ac1e-e541a07bfac"})
 				result := RequestValidateID(e)
 				So(result, ShouldNotBeNil)
 			})

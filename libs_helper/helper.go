@@ -61,7 +61,7 @@ func AddUnique(value string, slice *[]string) {
 func RequestValidateID(err error) string {
 	var message string
 	for _, messageError := range err.(validator.ValidationErrors) {
-		switch messageError.Tag() {
+		switch strings.ToLower(messageError.Tag()) {
 		case "required":
 			message = fmt.Sprint(messageError.StructField(), " ", messageError.Param())
 		case "min":
@@ -70,6 +70,10 @@ func RequestValidateID(err error) string {
 			message = fmt.Sprint(messageError.StructField(), " maksimal panjang karakter ", messageError.Param())
 		case "numeric":
 			message = fmt.Sprint(messageError.StructField(), " hanya di bolehkan ", messageError.Param())
+		case "ascii":
+			message = fmt.Sprint(messageError.StructField(), " ", messageError.Param())
+		case "uuid":
+			message = fmt.Sprint(messageError.StructField(), " ", messageError.Param())
 		}
 		break
 	}
