@@ -35,6 +35,7 @@ func ConvertNorekFormatBRI(in string) string {
 }
 
 func FormatAmountIDR(req float64) string {
+	//format idr like 100,000.00
 	var res string
 	step := strings.Split(fmt.Sprintf("%.2f", req), ".")
 	for i, j := range step[0] {
@@ -61,12 +62,12 @@ func AddUnique(value string, slice *[]string) {
 }
 
 func MessageValidate(err error, lang string) (message string) {
-	ValidationMessages, errLoad := LoadLang()
+	ValidationMessages, errLoad := LoadLang() //load lang
 	if errLoad != nil {
 		return fmt.Sprint(errLoad)
 	}
 
-	var index = 1
+	var index = 1 //default indonesia
 	for i := 0; i < len(ValidationMessages.Lang); i++ {
 		if strings.ToLower(strings.TrimSpace(ValidationMessages.Lang[i].Language)) == strings.ToLower(strings.TrimSpace(lang)) {
 			index = i
@@ -76,6 +77,7 @@ func MessageValidate(err error, lang string) (message string) {
 
 	messages := ValidationMessages.Lang[index].Details
 	for _, messageError := range err.(validator.ValidationErrors) {
+		//tagging validate
 		switch strings.ToLower(messageError.Tag()) {
 		case "required":
 			message = fmt.Sprint(messageError.StructField(), messages.Required, messageError.Param())
@@ -98,6 +100,7 @@ func MessageValidate(err error, lang string) (message string) {
 
 // Function that uses the global variable
 func LoadLang() (ValidationMessages *libs_model_validations.ValidationMessages, err error) {
+	//validator10 //add your lang to here
 	byteValue := libs_model_validations.ValidationMessages{
 		Lang: []libs_model_validations.LanguageDetails{
 			{
@@ -124,6 +127,7 @@ func LoadLang() (ValidationMessages *libs_model_validations.ValidationMessages, 
 			},
 		},
 	}
+	//parse
 	marshal, err := json.Marshal(byteValue)
 	if err != nil {
 		return nil, err
