@@ -7,9 +7,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
-	"io"
-	"os"
-	"path"
 	"strings"
 	"time"
 )
@@ -63,24 +60,21 @@ func AddUnique(value string, slice *[]string) {
 	*slice = append(*slice, cases.Title(language.Und, cases.NoLower).String(value))
 }
 
-func RequestValidateID(err error, lang string) string {
-	paths := path.Base("")
-	fmt.Println(paths)
-	err = LoadFileLang(path.Join(paths, "lang.json"))
-	if err != nil {
-		return fmt.Sprint(err)
+func RequestValidateID(err error, lang string) (message string) {
+	ValidationMessages, errLoad := LoadLang()
+	if errLoad != nil {
+		return fmt.Sprint(errLoad)
 	}
-	fmt.Println(ValidationMessages, len(ValidationMessages.Lang))
+
 	var index = 1
 	for i := 0; i < len(ValidationMessages.Lang); i++ {
-		if ValidationMessages.Lang[i].Language == lang {
+		if strings.ToLower(strings.TrimSpace(ValidationMessages.Lang[i].Language)) == strings.ToLower(strings.TrimSpace(lang)) {
 			index = i
+			break
 		}
 	}
 
 	messages := ValidationMessages.Lang[index].Details
-
-	var message string
 	for _, messageError := range err.(validator.ValidationErrors) {
 		switch strings.ToLower(messageError.Tag()) {
 		case "required":
@@ -102,32 +96,43 @@ func RequestValidateID(err error, lang string) string {
 	return message
 }
 
-var ValidationMessages *libs_model_validations.ValidationMessages
-
 // Function that uses the global variable
-func LoadFileLang(filename string) error {
-	filePath := filename
-
-	// Read the JSON content from the file
-	jsonFile, err := os.Open(filePath)
-	if err != nil {
-		fmt.Println("Error opening JSON file:", err)
-		return err
+func LoadLang() (ValidationMessages *libs_model_validations.ValidationMessages, err error) {
+	byteValue := libs_model_validations.ValidationMessages{
+		Lang: []libs_model_validations.LanguageDetails{
+			{
+				Language: "eng",
+				Details: libs_model_validations.ValidationDetails{
+					Required: " ",
+					Min:      " minimum character length ",
+					Max:      " maximum character length ",
+					Numeric:  " only allowed ",
+					Ascii:    " ",
+					UUID:     " ",
+				},
+			},
+			{
+				Language: "id",
+				Details: libs_model_validations.ValidationDetails{
+					Required: " ",
+					Min:      " minimal panjang karakter ",
+					Max:      " maksimal panjang karakter ",
+					Numeric:  " hanya di bolehkan ",
+					Ascii:    " ",
+					UUID:     " ",
+				},
+			},
+		},
 	}
-	defer jsonFile.Close()
-
-	byteValue, err := io.ReadAll(jsonFile)
+	marshal, err := json.Marshal(byteValue)
 	if err != nil {
-		fmt.Println("Error reading JSON file:", err)
-		return err
+		return nil, err
 	}
 
 	// Unmarshal the JSON content into the struct
-
-	err = json.Unmarshal(byteValue, &ValidationMessages)
+	err = json.Unmarshal(marshal, &ValidationMessages)
 	if err != nil {
-		fmt.Println("Error unmarshalling JSON:", err)
-		return err
+		return nil, err
 	}
-	return nil
+	return ValidationMessages, nil
 }
