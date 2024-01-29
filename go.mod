@@ -1,6 +1,6 @@
 module github.com/Jkenyut/libs-numeric-go
 
-go 1.19
+go 1.21.1
 
 require golang.org/x/text v0.14.0
 
