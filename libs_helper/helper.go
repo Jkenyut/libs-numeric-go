@@ -61,7 +61,7 @@ func AddStringUnique(value string, slice *[]string) {
 	*slice = append(*slice, cases.Title(language.Und, cases.NoLower).String(value))
 }
 
-func MessageValidate(err error, lang string) (message string) {
+func ValidationMessage(err error, lang string) (message string) {
 	ValidationMessages, errLoad := LoadLang() //load lang
 	if errLoad != nil {
 		return fmt.Sprint(errLoad)

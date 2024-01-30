@@ -61,7 +61,7 @@ func TestFunction(t *testing.T) {
 		var s []string
 		Array := []string{"Berhasil", "Gagal", "Kalo", "Ini", "ini", "Atau", "Jika", ""}
 		for _, i := range Array {
-			AddUnique(i, &s)
+			AddStringUnique(i, &s)
 		}
 		So(len(s), ShouldEqual, 6)
 	})
@@ -94,33 +94,33 @@ func TestRequestValidate(t *testing.T) {
 		Convey("When RequestValidate is called", func() {
 			Convey("Then it should return the expected error message required", func() {
 				e := valid.Struct(Required{ID: ""})
-				result := MessageValidate(e, "id")
+				result := ValidationMessage(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 
 			Convey("Then it should return the expected error message min", func() {
 				e := valid.Struct(Min{ID: "c"})
-				result := MessageValidate(e, "id")
+				result := ValidationMessage(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 			Convey("Then it should return the expected error message max", func() {
 				e := valid.Struct(Max{ID: "eneneiovneic"})
-				result := MessageValidate(e, "id")
+				result := ValidationMessage(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 			Convey("Then it should return the expected error message Numeric", func() {
 				e := valid.Struct(Numeric{ID: "eneneiovneic"})
-				result := MessageValidate(e, "id")
+				result := ValidationMessage(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 			Convey("Then it should return the expected error message ascii", func() {
 				e := valid.Struct(ascii{ID: "é"})
-				result := MessageValidate(e, "id")
+				result := ValidationMessage(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 			Convey("Then it should return the expected error message uuid", func() {
 				e := valid.Struct(uuid{ID: "28febdfd-2b58-4a03-ac1e-e541a07bfac"})
-				result := MessageValidate(e, "id")
+				result := ValidationMessage(e, "id")
 				So(result, ShouldNotBeNil)
 			})
 		})
