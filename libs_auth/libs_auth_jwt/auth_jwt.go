@@ -10,16 +10,19 @@ import (
 
 //jwt
 
+// ClientAuth struct used for input in NewClientAuthJWT
 type ClientAuth struct {
 	conf libs_config.JWTConfig
 }
 
+// NewClientAuthJWT function used to perform JWT creation call connection
 func NewClientAuthJWT(conf libs_config.JWTConfig) InterfacesAuthJWT {
 	return &ClientAuth{
 		conf: conf,
 	}
 }
 
+// GenerateJWTAccessCustom Method Generate NewClientAuthJWT
 func (repo *ClientAuth) GenerateJWTAccessCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims *libs_model_jwt.CustomClaims, err error) {
 	claimsAccess := libs_model_jwt.CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -45,6 +48,7 @@ func (repo *ClientAuth) GenerateJWTAccessCustom(ctx context.Context, issuer stri
 	return tokenJWTAccess, &claimsAccess, nil
 }
 
+// GenerateJWTRefreshCustom Method Generate NewClientAuthJWT
 func (repo *ClientAuth) GenerateJWTRefreshCustom(ctx context.Context, issuer string, audience []string, subject string, id string, data any) (tokenJWTAccess string, claims *libs_model_jwt.CustomClaims, err error) {
 	claimsAccess := libs_model_jwt.CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{

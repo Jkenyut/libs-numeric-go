@@ -10,16 +10,17 @@ import (
 	"io"
 )
 
-// aes custom data
-
+// AESCustomRequest used for input into EncryptMessage for data encryption.
 type AESCustomRequest struct {
 	Request any `json:"request,omitempty"`
 }
 
+// AESCustomResponse used for input into DecryptMessage for data encryption.
 type AESCustomResponse struct {
 	Response any `json:"response,omitempty"`
 }
 
+// EncryptMessage data encryption via AESCustomRequest input using the AES algorithm AesEncrypt
 func EncryptMessage(key []byte, plaintext []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -38,6 +39,7 @@ func EncryptMessage(key []byte, plaintext []byte) ([]byte, error) {
 	return ciphertext, nil
 }
 
+// DecryptMessage data description via AESCustomResponse input using the AES algorithm
 func DecryptMessage(key []byte, ciphertext []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -57,7 +59,8 @@ func DecryptMessage(key []byte, ciphertext []byte) ([]byte, error) {
 	return ciphertext, nil
 }
 
-func AesEncrypt(key []byte, data any) (encode string, err error) {
+// AESEncrypt the function called to perform encryption
+func AESEncrypt(key []byte, data any) (encode string, err error) {
 	jsonData, err := json.Marshal(AESCustomRequest{Request: data})
 	if err != nil {
 		return encode, err
@@ -69,7 +72,8 @@ func AesEncrypt(key []byte, data any) (encode string, err error) {
 	return base64.StdEncoding.EncodeToString(encryptedData), nil
 }
 
-func AesDecrypt(key []byte, plaintext string) (out *AESCustomRequest, err error) {
+// AESDecrypt the function called to perform description
+func AESDecrypt(key []byte, plaintext string) (out *AESCustomRequest, err error) {
 	decodeString, err := base64.StdEncoding.DecodeString(plaintext)
 	if err != nil {
 		return nil, err

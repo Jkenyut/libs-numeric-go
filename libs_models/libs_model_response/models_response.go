@@ -18,6 +18,7 @@ type DefaultResponse struct {
 	Data    any             `json:"data,omitempty"`
 }
 
+// DefaultErrorResponseWithMessage Default response on error with a message that can be inputted
 func DefaultErrorResponseWithMessage(msg string, status int) DefaultResponse {
 	return DefaultResponse{
 		Message: ResponseDefault{
@@ -29,6 +30,7 @@ func DefaultErrorResponseWithMessage(msg string, status int) DefaultResponse {
 	}
 }
 
+// DefaultSuccessResponseWithMessage Default response on success with a message that can be inputted
 func DefaultSuccessResponseWithMessage(msg string, status int, data any) DefaultResponse {
 	return DefaultResponse{
 		Message: ResponseDefault{

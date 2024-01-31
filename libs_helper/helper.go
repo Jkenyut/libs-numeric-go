@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-// ConvertTime Convert Time
+// ConvertTimeWIBFromString format the date with a string input into the specified layout
 func ConvertTimeWIBFromString(date string, layout string) (res string, err error) {
 	// if date empty or null
 	if date == "" || strings.Contains(date, "0001-01-01T00:00:00") {
@@ -27,6 +27,7 @@ func ConvertTimeWIBFromString(date string, layout string) (res string, err error
 	}
 }
 
+// ConvertNorekFormatBRI BRI account number conversion
 func ConvertNorekFormatBRI(in string) string {
 	if len(in) < 15 {
 		return ""
@@ -34,6 +35,7 @@ func ConvertNorekFormatBRI(in string) string {
 	return fmt.Sprintf("%s-%s-%s-%s-%s", in[:4], in[4:6], in[6:12], in[12:14], in[14:])
 }
 
+// FormatAmountIDR nominal conversion into IDR for example 1,000,000.00
 func FormatAmountIDR(req float64) (res string) {
 	//format idr like 100,000.00
 
@@ -48,7 +50,7 @@ func FormatAmountIDR(req float64) (res string) {
 	return res
 }
 
-// AddUnique duplicate array
+// AddStringUnique SET AddUnique string to array
 func AddStringUnique(value string, slice *[]string) {
 	//lopping data
 	for _, eq := range *slice { //loop
@@ -61,13 +63,15 @@ func AddStringUnique(value string, slice *[]string) {
 	*slice = append(*slice, cases.Title(language.Und, cases.NoLower).String(value))
 }
 
+// ValidationMessage function for the validation of the 10 goals used to select the message language, with inputs in the form of errors from validation and selection.
+// e.g. (error, "id") or (error, "eng") lang filled in LoadLang
 func ValidationMessage(err error, lang string) (message string) {
 	ValidationMessages, errLoad := LoadLang() //load lang
 	if errLoad != nil {
 		return fmt.Sprint(errLoad)
 	}
 
-	var index = 1 //default indonesia
+	var index = 1 //default lang indonesia
 	for i := 0; i < len(ValidationMessages.Lang); i++ {
 		if strings.ToLower(strings.TrimSpace(ValidationMessages.Lang[i].Language)) == strings.ToLower(strings.TrimSpace(lang)) { // lang conditional
 			index = i
@@ -98,7 +102,7 @@ func ValidationMessage(err error, lang string) (message string) {
 	return message
 }
 
-// Function that uses the global variable
+// LoadLang Function that uses the global variable used on ValidationMessage, add your lang to here
 func LoadLang() (ValidationMessages *libs_model_validations.ValidationMessages, err error) {
 	//validator10 **add your lang to here
 	byteValue := libs_model_validations.ValidationMessages{

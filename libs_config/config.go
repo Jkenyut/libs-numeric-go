@@ -1,10 +1,12 @@
 package libs_config
 
-// default config
+// Listener default config for go struct is created for automatic yaml generation so that it can be implemented in new projects.
 type Listener struct {
 	Listen string `yaml:"listen" default:"0.0.0.0"`
 	Port   int    `yaml:"port" default:"8081"`
 }
+
+// SQLConfig SQL config is used to configure RDMS databases such as MySQL, PostgreSQL, and oraclesql struct is created for automatic YAML creation so that it can be implemented in new projects.
 type SQLConfig struct {
 	Enable          bool   `yaml:"enable" default:"false" desc:"config:sql:enable"`
 	Driver          string `yaml:"driver" default:"" desc:"config:sql:driver"`
@@ -26,6 +28,7 @@ type SQLConfig struct {
 	MultiStatements bool   `yaml:"multiStatements" default:"false"  desc:"config:sql:multiStatements"`
 }
 
+// RabbitMQConfig Rabbit config is used to configure structs created for automatic YAML generation so that they can be implemented in new projects.
 type RabbitMQConfig struct {
 	Enable              bool   `yaml:"enable" default:"false" desc:"config:rabbitmq:enable"`
 	Host                string `yaml:"host" default:"127.0.0.1" desc:"config:rabbitmq:host"`
@@ -36,6 +39,7 @@ type RabbitMQConfig struct {
 	DedicatedConnection bool   `yaml:"dedicatedConnection" default:"false" desc:"config:rabbitmq:dedicatedConnection"`
 }
 
+// RedisConfig REDIS config is used to configure structs created for automatic YAML generation so that they can be implemented in new projects.
 type RedisConfig struct {
 	Enable        bool   `yaml:"enable" default:"false" desc:"config:redis:enable"`
 	Host          string `yaml:"host" default:"127.0.0.1" desc:"config:redis:host"`
@@ -53,6 +57,7 @@ type RedisConfig struct {
 	ConMaxIdle    int    `yaml:"conmaxidle" default:"600" desc:"config:conmaxidle"`
 }
 
+// KafkaConfig Kafka config is used to configure structs created for automatic YAML generation so that they can be implemented in new projects.
 type KafkaConfig struct {
 	Enable           bool   `yaml:"enable" default:"false" desc:"config:kafka:enable"`
 	Host             string `yaml:"host" default:"127.0.0.1:9092" desc:"config:kafka:host"`
@@ -63,6 +68,8 @@ type KafkaConfig struct {
 	Mechanisms       string `yaml:"mechanisms" default:"PLAIN"  desc:"config:kafka:mechanisms"`
 	Debug            string `yaml:"debug" default:"consumer"  desc:"config:kafka:debug"`
 }
+
+// JWTConfig JWT config is used to configure structs created for automatic YAML generation so that they can be implemented in new projects.
 type JWTConfig struct {
 	Access         string `yaml:"access" default:"random"`
 	Refresh        string `yaml:"refresh" default:"random"`
