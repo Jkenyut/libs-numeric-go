@@ -10,12 +10,12 @@ import (
 	"io"
 )
 
-// AESCustomRequest used for input into EncryptMessage for data encryption.
+// AESCustomRequest used for input into EncryptMessage for data encryption AESEncrypt.
 type AESCustomRequest struct {
 	Request any `json:"request,omitempty"`
 }
 
-// AESCustomResponse used for input into DecryptMessage for data encryption.
+// AESCustomResponse used for input into DecryptMessage for data encryption DecryptMessage.
 type AESCustomResponse struct {
 	Response any `json:"response,omitempty"`
 }
