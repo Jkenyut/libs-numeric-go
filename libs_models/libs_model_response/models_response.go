@@ -11,7 +11,7 @@ type ResponseDefault struct {
 	Success    bool   `json:"success"`
 	Message    string `json:"message"`
 	StatusCode string `json:"statusCode"`
-	Journal    string `json:"Journal"`
+	Journal    string `json:"journal"`
 }
 type DefaultResponse struct {
 	Message ResponseDefault `json:"message,omitempty"`
